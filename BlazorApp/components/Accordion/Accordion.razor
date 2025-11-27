@@ -1,11 +1,10 @@
-@* Reusable Accordion Component with Tailwind CSS *@
 <div class="bg-surface gap-4 flex flex-col rounded-lg overflow-hidden transition-all duration-300">
     <div class="flex justify-between items-center pb-2 cursor-pointer select-none hover:bg-black/[0.02] border-b border-gray-200"
         @onclick="ToggleAccordion">
         <h3 class="h-subsection-title">@Title</h3>
         <button
             class="bg-transparent border-0 cursor-pointer p-1 flex items-center justify-center transition-transform duration-300"
-            aria-label="Toggle accordion">
+            aria-label="Toggle accordion" aria-expanded="@IsExpanded" aria-controls="accordion-content">
             <img src="icons/chevron_up.svg" alt="Toggle"
                 class="chevron-icon @(IsExpanded ? "expanded" : "collapsed")" />
         </button>
