@@ -1,0 +1,10 @@
+@* Reusable Loading Spinner Component *@
+<div class="flex items-center justify-center p-8" role="status" aria-live="polite">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    <span class="sr-only">@LoadingText</span>
+</div>
+
+@code {
+    [Parameter]
+    public string LoadingText { get; set; } = "Loading...";
+}
