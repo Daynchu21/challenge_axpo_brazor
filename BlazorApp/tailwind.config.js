@@ -8,7 +8,17 @@ module.exports = {
     "./wwwroot/index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "text-primary": "#3D3D3D",
+        "text-highlight": "#1F1F1F",
+        surface: "#F8F8F8",
+      },
+      fontFamily: {
+        lucida: ['"Lucida Console"', "monospace"],
+        "open-sans": ['"Open Sans"', "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

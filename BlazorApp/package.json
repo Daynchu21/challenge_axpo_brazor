@@ -5,6 +5,8 @@
   "scripts": {
     "build:css": "npx tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/output.css --minify",
     "watch:css": "npx tailwindcss -i ./wwwroot/css/app.css -o ./wwwroot/css/output.css --watch",
+    "format": "prettier --write \"**/*.{js,json,css,html}\"",
+    "format:check": "prettier --check \"**/*.{js,json,css,html}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +16,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.22",
     "postcss": "^8.5.6",
+    "prettier": "^3.7.1",
+    "prettier-plugin-tailwindcss": "^0.7.1",
     "tailwindcss": "^3.4.17"
   }
 }

@@ -1,22 +1,46 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-## husky task runner examples -------------------
-## Note : for local installation use 'dotnet' prefix. e.g. 'dotnet husky'
+echo "🔍 Running pre-commit checks..."
 
-## run all tasks
-#husky run
+# Get the root directory of the git repository
+ROOT_DIR=$(git rev-parse --show-toplevel)
 
-### run all tasks with group: 'group-name'
-#husky run --group group-name
+# 1. Run dotnet format on C# files
+echo "📝 Running dotnet format..."
+cd "$ROOT_DIR"
+dotnet format --verify-no-changes --verbosity quiet
+if [ $? -ne 0 ]; then
+  echo "❌ Code formatting issues found. Running dotnet format to fix..."
+  dotnet format
+  echo "✅ Code formatted. Please review and stage the changes."
+  exit 1
+fi
+echo "✅ C# formatting check passed"
 
-## run task with name: 'task-name'
-#husky run --name task-name
+# 2. Run prettier on JS/CSS/Razor files
+echo "💅 Running prettier..."
+cd "$ROOT_DIR/BlazorApp"
+npm run format:check
+if [ $? -ne 0 ]; then
+  echo "❌ Prettier formatting issues found. Running prettier to fix..."
+  npm run format
+  echo "✅ Files formatted. Please review and stage the changes."
+  exit 1
+fi
+echo "✅ Prettier check passed"
 
-## pass hook arguments to task
-#husky run --args "$1" "$2"
+# 3. Run tests
+echo "🧪 Running tests..."
+cd "$ROOT_DIR/BlazorApp.Tests"
+dotnet test --verbosity quiet --nologo
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Please fix the tests before committing."
+  exit 1
+fi
+echo "✅ All tests passed"
 
-## or put your custom commands -------------------
-#echo 'Husky.Net is awesome!'
+echo "✨ All pre-commit checks passed!"
+exit 0
 
 dotnet husky run
