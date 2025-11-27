@@ -1,64 +1,38 @@
-# Challenge Axpo Blazor
+# Axpo Contract Onboarding (Blazor WebAssembly)
 
-A minimal Blazor WebAssembly frontend project for a short challenge interview.
+A single-page Blazor WebAssembly app that showcases a contract onboarding workspace with reusable UI primitives, navigation, and themed styling built on .NET 8.
 
-## Project Structure
+## Project structure
 
-This repository contains a Blazor WebAssembly standalone application built with .NET 8.0.
+-   `BlazorApp/` – Main WebAssembly project with routing, layout, pages, and styles.
+    -   `Pages/` – Razor pages/components.
+    -   `Layout/` – Layout components and app shell.
+    -   `wwwroot/` – Static assets and global styles.
+    -   `Program.cs` – Application entry point and DI configuration.
 
-```
-BlazorApp/
-├── Pages/              # Razor pages/components
-├── Layout/             # Layout components
-├── wwwroot/            # Static files
-├── Program.cs          # Application entry point
-└── BlazorApp.csproj    # Project file
-```
+> If you add extra projects (e.g. `BlazorApp.Tests/` for bUnit/xUnit tests or a separate components library), document them here as well.
+
+## Core features
+
+-   **App shell with shared navigation and footer** driven by route constants (for example `/`, `/contracts`, `/analytics`, `/support`) so pages plug into a consistent layout.
+-   **Design tokens and theming** defined in `wwwroot/css/app.css` to unify typography, surfaces, spacing, and navigation hover/active states across the app.
+-   **Contract onboarding page** that can fetch mock contract overview data, display loading/error/empty states, and render each section within accessible accordion-style panels.
+-   **Supplemental workspace pages** (e.g. Analytics and Support) to demonstrate multi-route navigation with shared styling and typography tokens.
+
+Adapt the bullets above to match exactly what you implemented.
 
 ## Prerequisites
 
-- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
+-   [.NET 8 SDK](https://dotnet.microsoft.com/download) for building and running the WebAssembly app.
+-   (Optional) The same .NET 8 SDK for running tests if you add a test project (xUnit + bUnit, etc.).
 
-## Getting Started
-
-### Build the project
-
-```bash
-cd BlazorApp
-dotnet build
-```
-
-### Run the project
+## Running the app
 
 ```bash
 cd BlazorApp
-dotnet run
+
+dotnet restore
+
+# Development server
+DOTNET_ENVIRONMENT=Development dotnet run
 ```
-
-The application will be available at `http://localhost:5000` (or the port shown in the console output).
-
-### Publish for deployment
-
-```bash
-cd BlazorApp
-dotnet publish -c Release
-```
-
-The published files will be in `BlazorApp/bin/Release/net8.0/publish/wwwroot/`.
-
-## Features
-
-This minimal Blazor app includes:
-- Home page
-- Counter page (demonstrates state management)
-- Weather forecast page (demonstrates data fetching)
-- Responsive navigation menu
-- Bootstrap styling
-
-## Technology Stack
-
-- Blazor WebAssembly
-- .NET 8.0
-- C#
-- HTML/CSS
-- Bootstrap 5

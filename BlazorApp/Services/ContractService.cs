@@ -18,7 +18,6 @@ public class ContractService : IContractService
     {
         try
         {
-            // TODO: Replace with actual API call
             // var response = await httpClient.GetFromJsonAsync<ContractOverview>($"/api/contracts/{contractId}/overview");
             await Task.Delay(100); // Simulate API delay
             return GetMockContractOverviews().FirstOrDefault() ?? new ContractOverview();
@@ -34,7 +33,6 @@ public class ContractService : IContractService
     {
         try
         {
-            // TODO: Replace with actual API call
             await Task.Delay(100); // Simulate API delay
             return GetMockContractOverviews();
         }
