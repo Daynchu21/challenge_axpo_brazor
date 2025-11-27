@@ -1,4 +1,5 @@
 using BlazorApp.components.Accordion;
+using BlazorApp.Models;
 using Bunit;
 using Xunit;
 
@@ -152,8 +153,13 @@ public class AccordionTests : TestContext
         var button = cut.Find("button[aria-label='Toggle accordion']");
         Assert.NotNull(button);
 
-        // Verificar que tiene aria-controls
+        // Verificar que tiene aria-controls (con ID único)
         var ariaControls = button.GetAttribute("aria-controls");
-        Assert.Equal("accordion-content", ariaControls);
+        Assert.NotNull(ariaControls);
+        Assert.StartsWith("accordion-content-", ariaControls);
+
+        // Verificar aria-expanded
+        var ariaExpanded = button.GetAttribute("aria-expanded");
+        Assert.Equal("false", ariaExpanded);
     }
 }

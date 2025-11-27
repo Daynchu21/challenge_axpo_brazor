@@ -1,37 +1,93 @@
 @page "/"
 @using BlazorApp.components.Accordion
 @using BlazorApp.components.ContractOnboardingHeader
+@using BlazorApp.components.Common
+@using BlazorApp.Services
+@using BlazorApp.Models
+@using BlazorApp.Constants
+@inject IContractService ContractService
+@inject ILogger<ContractOnboarding> Logger
+
+<PageTitle>Contract Onboarding - AXSO</PageTitle>
 
 <div class="max-w-[1400px] mx-auto px-5 py-10">
     <ContractOnboardingHeader />
-    <section class="flex flex-col gap-8 w-full h-auto p-3">
-        <h2 class="h-section-title">
-            Contract Summary</h2>
-        <div class="grid grid-cols-2 md:grid-cols-2 gap-6 items-start max-lg:gap-5 max-md:grid-cols-1 max-md:gap-4">
-            <Accordion Title="Overview" Items="OverviewItems" />
-            <Accordion Title="Overview" Items="OverviewItems2" />
 
+    <section class="flex flex-col gap-8 w-full h-auto p-3" aria-label="Contract Summary Section">
+        <h2 class="@AppConstants.CssClasses.SectionTitle">
+            Contract Summary
+        </h2>
 
-        </div>
+        @if (_isLoading)
+        {
+            <LoadingSpinner LoadingText="Loading contract data..." />
+        }
+        else if (_error != null)
+        {
+            <ErrorMessage Title="Failed to load contract data"
+                          Message="@_error"
+                          OnRetry="LoadContractDataAsync" />
+        }
+        else if (_contractOverviews?.Any() ?? false)
+        {
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
+                 role="list"
+                 aria-label="Contract overview sections">
+                @foreach (var overview in _contractOverviews)
+                {
+                    <div role="listitem">
+                        <Accordion Title="@overview.Title"
+                                   Items="@overview.Items"
+                                   InitiallyExpanded="false"
+                                   OnToggle="@(expanded => HandleAccordionToggle(overview.Id, expanded))" />
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-gray-500 p-8">
+                <p>No contract data available</p>
+            </div>
+        }
     </section>
 </div>
 
 @code {
-    private List<ContractSummaryItem> OverviewItems = new()
-{
-new() { Label = "Contract Type", Value = "Existing Client – New Business" },
-new() { Label = "Commodity", Value = "Power" },
-new() { Label = "Country", Value = "France", Icon = "icons/FR.svg" },
-new() { Label = "Signature Date", Value = "26/04/2023" },
-new() { Label = "Period", Value = "01/01/2023 – 31/12/2027" }
-};
+    private List<ContractOverview>? _contractOverviews;
+    private bool _isLoading = true;
+    private string? _error;
 
-    private List<ContractSummaryItem> OverviewItems2 = new()
-{
-new() { Label = "Contract Type", Value = "Existing Client – New Business" },
-new() { Label = "Commodity", Value = "Power" },
-new() { Label = "Country", Value = "France", Icon = "icons/FR.svg" },
-new() { Label = "Signature Date", Value = "26/04/2023" },
-new() { Label = "Period", Value = "01/01/2023 – 31/12/2027" }
-};
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadContractDataAsync();
+    }
+
+    private async Task LoadContractDataAsync()
+    {
+        _isLoading = true;
+        _error = null;
+        StateHasChanged();
+
+        try
+        {
+            _contractOverviews = await ContractService.GetAllContractOverviewsAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading contract data");
+            _error = "Unable to load contract data. Please try again later.";
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private void HandleAccordionToggle(string overviewId, bool isExpanded)
+    {
+        Logger.LogInformation("Accordion {OverviewId} toggled to {IsExpanded}", overviewId, isExpanded);
+        // Here you could implement analytics tracking, state management, etc.
+    }
 }
