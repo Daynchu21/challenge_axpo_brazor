@@ -31,8 +31,5 @@ Adapt the bullets above to match exactly what you implemented.
 ```bash
 cd BlazorApp
 
-dotnet restore
-
-# Development server
-DOTNET_ENVIRONMENT=Development dotnet run
+dotnet run
 ```
