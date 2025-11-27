@@ -1,0 +1,9 @@
+node_modules
+bin
+obj
+*.min.css
+*.min.js
+*.razor
+*.cshtml
+wwwroot/css/output.css
+package-lock.json
