@@ -19,7 +19,15 @@ A single-page Blazor WebAssembly app that showcases a contract onboarding worksp
 -   **Contract onboarding page** that can fetch mock contract overview data, display loading/error/empty states, and render each section within accessible accordion-style panels.
 -   **Supplemental workspace pages** (e.g. Analytics and Support) to demonstrate multi-route navigation with shared styling and typography tokens.
 
-Adapt the bullets above to match exactly what you implemented.
+## Tooling & architecture
+
+-   **Husky** configured to run git hooks (e.g. linting/tests) on commit to keep the codebase consistent.
+-   **SOLID principles** applied across services and components to keep the onboarding workflow modular, testable, and easy to extend.
+
+## CI/CD & deployment
+
+-   **GitHub Actions** workflow configured to build and deploy the Blazor WebAssembly app.
+-   Production build is **automatically deployed to Netlify** on pushes to the main branch.
 
 ## Prerequisites
 
@@ -32,4 +40,3 @@ Adapt the bullets above to match exactly what you implemented.
 cd BlazorApp
 
 dotnet run
-```
